@@ -49,14 +49,14 @@ def convert_to_score(greens, yellows):
         unknowns = 5 - 1 - greens
         points += yellows / unknowns
     
-    return points / 5 # max score is five, so divide by five to average out
+    return points
 
 def store_scores(list, filename):
     """Store a list of scores into a text file"""
 
     file = open(filename, "w")
     for score in list:
-        file.write(f"{score[0]:.3f} {score[1]}\n")
+        file.write(f"{score[0]} {score[1]}\n")
     file.close()
 
 def test_words():
@@ -95,14 +95,14 @@ def main():
             greens, yellows = compare(response, answer)
             score += convert_to_score(greens, yellows)
         
-        # add score to master list
-        allowed_scored.append((score, response))
+        # add averaged score to master list
+        allowed_scored.append((score / len(answers), response))
     
     # sort from max to min
     allowed_scored.sort()
     allowed_scored.reverse()
 
-    store_scores(allowed_scored, "ResponseScores.txt")
+    store_scores(allowed_scored, "ResponseScoresAveraged.txt")
         
 if __name__ == "__main__":
     main()
